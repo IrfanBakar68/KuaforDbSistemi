@@ -1,0 +1,29 @@
+@model KuaforDbSistemi.Models.Calisan
+
+<h2>Çalýþan Detaylarý</h2>
+
+<div>
+    <h4>Çalýþan</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">Ad</dt>
+        <dd class="col-sm-10">@Model.Ad</dd>
+
+        <dt class="col-sm-2">Soyad</dt>
+        <dd class="col-sm-10">@Model.Soyad</dd>
+
+        <dt class="col-sm-2">Uzmanlýk Alaný</dt>
+        <dd class="col-sm-10">@Model.UzmanlikAlani</dd>
+
+        <dt class="col-sm-2">Uygunluk Saatleri</dt>
+        <dd class="col-sm-10">@Model.UygunlukSaatleri</dd>
+
+        <dt class="col-sm-2">Salon</dt>
+        <dd class="col-sm-10">@Model.SalonId</dd>
+    </dl>
+</div>
+<div class="mt-4">
+    <a asp-action="Index" class="btn btn-secondary btn-lg">
+        <i class="bi bi-arrow-left"></i> Listeye Dön
+    </a>
+</div>

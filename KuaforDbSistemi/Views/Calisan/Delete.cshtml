@@ -1,0 +1,21 @@
+@model KuaforDbSistemi.Models.Calisan
+
+<h2>Çalýþan Sil</h2>
+<h3>Bu çalýþanýn silinmesini onaylýyor musunuz?</h3>
+
+<div>
+    <h4>@Model.Ad @Model.Soyad</h4>
+    <dl class="row">
+        <dt class="col-sm-3">Uzmanlýk Alaný</dt>
+        <dd class="col-sm-9">@Model.UzmanlikAlani</dd>
+
+        <dt class="col-sm-3">Salon</dt>
+        <dd class="col-sm-9">@Model.Salon?.Isim</dd>
+    </dl>
+
+    <form asp-action="DeleteConfirmed" method="post">
+        <input type="hidden" asp-for="Id" />
+        <button type="submit" class="btn btn-danger">Sil</button>
+        <a asp-action="Index" class="btn btn-secondary">Listeye Dön</a>
+    </form>
+</div>

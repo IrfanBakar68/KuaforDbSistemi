@@ -1,0 +1,23 @@
+﻿@model KuaforDbSistemi.Models.Salon
+
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header bg-info text-white">
+            <h2>Salon Detayları</h2>
+        </div>
+        <div class="card-body">
+            <dl class="row">
+                <dt class="col-sm-3">Salon İsmi:</dt>
+                <dd class="col-sm-9">@Model.Isim</dd>
+
+                <dt class="col-sm-3">Adres:</dt>
+                <dd class="col-sm-9">@Model.Adres</dd>
+
+                <dt class="col-sm-3">Çalışma Saatleri:</dt>
+                <dd class="col-sm-9">@Model.CalismaSaatleri</dd>
+            </dl>
+
+            <a asp-action="Index" class="btn btn-secondary">Geri Dön</a>
+        </div>
+    </div>
+</div>

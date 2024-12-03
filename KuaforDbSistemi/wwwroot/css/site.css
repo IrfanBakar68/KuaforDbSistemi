@@ -1,0 +1,183 @@
+/* Genel Font ve Arka Plan Ayarlarý */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: 'Roboto', sans-serif;
+    font-size: 18px;
+    background: linear-gradient(120deg, #0f2027, #203a43, #2c5364); /* Gradient arka plan */
+    color: white; /* Varsayýlan metin rengi */
+    overflow-x: hidden; /* Yatay kaydýrmayý engelle */
+}
+/* Hero Bölümü (Home Sayfasý) */
+.custom-hero-section {
+    min-height: 95vh; /* Tam ekran yüksekliði */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 50px 20px;
+    box-sizing: border-box;
+}
+
+
+
+/* Salon Index Bölümü */
+.salon-index {
+    padding: 40px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.1); /* Hafif þeffaf beyaz arka plan */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Hafif gölge */
+}
+
+    .salon-index h1 {
+        font-size: 2.5rem; /* Baþlýk boyutu */
+        font-weight: bold;
+        color: #ffcc00; /* Altýn Sarýsý Baþlýk */
+        margin-bottom: 20px;
+        text-align: center; /* Baþlýðý ortala */
+    }
+
+.table {
+    background-color: rgba(0, 0, 0, 0.6); /* Þeffaf siyah arka plan */
+    color: white; /* Tablo metni beyaz */
+    border-radius: 10px; /* Yuvarlatýlmýþ köþeler */
+    overflow: hidden; /* Taþmayý engelle */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Tablo gölgesi */
+}
+
+    .table th {
+        background-color: #007bff; /* Mavi baþlýk */
+        color: white;
+        text-align: center;
+        padding: 15px;
+        font-size: 1.2rem; /* Daha büyük yazý */
+    }
+
+    .table td {
+        text-align: center;
+        vertical-align: middle;
+        padding: 15px;
+        font-size: 1.1rem; /* Daha büyük hücre yazýsý */
+    }
+
+.table-hover tbody tr:hover {
+    background-color: rgba(255, 255, 255, 0.2); /* Hover efekti */
+    color: #ffcc00; /* Altýn sarýsý yazý hover */
+}
+
+/* Butonlar */
+.btn {
+    padding: 10px 20px;
+    font-size: 1rem;
+    border-radius: 20px;
+    transition: all 0.3s ease;
+}
+
+.btn-primary {
+    background-color: #28a745;
+    border: none;
+}
+
+    .btn-primary:hover {
+        background-color: #218838;
+    }
+
+.btn-info {
+    background-color: #17a2b8;
+    border: none;
+}
+
+    .btn-info:hover {
+        background-color: #138496;
+    }
+
+.btn-warning {
+    background-color: #ffc107;
+    border: none;
+}
+
+    .btn-warning:hover {
+        background-color: #e0a800;
+    }
+
+.btn-danger {
+    background-color: #dc3545;
+    border: none;
+}
+
+    .btn-danger:hover {
+        background-color: #c82333;
+    }
+
+.calisan-index {
+    padding: 40px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.1); /* Þeffaf beyaz */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    margin-top: 20px;
+}
+
+    .calisan-index h1 {
+        font-size: 2.5rem;
+        font-weight: bold;
+        color: #ffcc00; /* Altýn Sarýsý */
+        margin-bottom: 20px;
+    }
+
+.table th {
+    background-color: #007bff; /* Mavi baþlýk */
+    color: white;
+    text-align: center;
+    padding: 15px;
+    font-size: 1.2rem;
+}
+
+.table td {
+    text-align: center;
+    vertical-align: middle;
+    padding: 15px;
+    font-size: 1.1rem;
+}
+
+.table-hover tbody tr:hover {
+    background-color: rgba(255, 255, 255, 0.2); /* Hover efekti */
+    color: #ffcc00; /* Altýn Sarýsý */
+}
+
+.btn-success {
+    background-color: #28a745; /* Yeþil */
+    border: none;
+}
+
+    .btn-success:hover {
+        background-color: #218838;
+    }
+
+.btn-sm {
+    margin: 0 5px;
+}
+
+.btn-lg {
+    padding: 15px 30px;
+    font-size: 1.2rem;
+    border-radius: 10px;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    border: none;
+}
+
+    .btn-secondary:hover {
+        background-color: #5a6268;
+        color: white;
+    }
+
+.btn-danger {
+    background-color: #dc3545;
+    border: none;
+}
+
+    .btn-danger:hover {
+        background-color: #c82333;
+    }

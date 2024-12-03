@@ -1,0 +1,47 @@
+@model IEnumerable<KuaforDbSistemi.Models.Calisan>
+
+<div class="calisan-index">
+    <h1>Çalýþan Listesi</h1>
+
+    <p>
+        <a asp-action="Create" class="btn btn-primary btn-lg">
+            <i class="bi bi-person-plus"></i> Yeni Çalýþan Ekle
+        </a>
+    </p>
+
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Ad</th>
+                <th>Soyad</th>
+                <th>Uzmanlýk Alaný</th>
+                <th>Uygunluk Saatleri</th>
+                <th>Salon</th>
+                <th>Ýþlemler</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Ad</td>
+                    <td>@item.Soyad</td>
+                    <td>@item.UzmanlikAlani</td>
+                    <td>@item.UygunlukSaatleri</td>
+                    <td>Salon @item.SalonId</td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-secondary btn-sm">
+                            <i class="bi bi-pencil-square"></i> Düzenle
+                        </a>
+                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info btn-sm">
+                            <i class="bi bi-eye"></i> Görüntüle
+                        </a>
+                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-sm">
+                            <i class="bi bi-trash"></i> Sil
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

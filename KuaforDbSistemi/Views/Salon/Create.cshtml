@@ -1,0 +1,33 @@
+﻿@model KuaforDbSistemi.Models.Salon
+
+<div class="container">
+    <div class="card">
+        <div class="card-header">
+            Yeni Salon Ekle
+        </div>
+        <div class="card-body">
+            <form asp-action="Create">
+                <div class="form-group">
+                    <label for="Isim">Salon İsmi</label>
+                    <input type="text" asp-for="Isim" class="form-control" placeholder="Salon İsmini Giriniz" />
+                    <span asp-validation-for="Isim" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="Adres">Adres</label>
+                    <input type="text" asp-for="Adres" class="form-control" placeholder="Adres Giriniz" />
+                    <span asp-validation-for="Adres" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="CalismaSaatleri">Çalışma Saatleri</label>
+                    <input type="text" asp-for="CalismaSaatleri" class="form-control" placeholder="Örnek: 09:00 - 18:00" />
+                    <span asp-validation-for="CalismaSaatleri" class="text-danger"></span>
+                </div>
+
+                <button type="submit" class="btn btn-custom mt-3">Kaydet</button>
+                <a asp-action="Index" class="btn btn-secondary mt-3">Geri Dön</a>
+            </form>
+        </div>
+    </div>
+</div>

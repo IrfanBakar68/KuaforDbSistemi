@@ -1,0 +1,31 @@
+﻿<div class="salon-index">
+    <h1 class="text-center">Salonlar</h1>
+    <div class="d-flex justify-content-end mb-3">
+        <a asp-action="Create" class="btn btn-success">Salon Ekle</a>
+    </div>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">Ad</th>
+                <th scope="col">Adres</th>
+                <th scope="col">Çalışma Saatleri</th>
+                <th scope="col">İşlemler</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var salon in Model)
+            {
+                <tr>
+                    <td>@salon.Isim</td>
+                    <td>@salon.Adres</td>
+                    <td>@salon.CalismaSaatleri</td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@salon.Id" class="btn btn-warning btn-sm">Düzenle</a>
+                        <a asp-action="Details" asp-route-id="@salon.Id" class="btn btn-info btn-sm">Detaylar</a>
+                        <a asp-action="Delete" asp-route-id="@salon.Id" class="btn btn-danger btn-sm">Sil</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
