@@ -1,0 +1,47 @@
+@model KuaforDbSistemi.Models.Randevu
+
+<div class="container mt-5">
+    <h2 class="text-center text-primary mb-4">Randevuyu Düzenle</h2>
+    <form asp-action="Edit" method="post">
+        <input type="hidden" asp-for="Id" />
+        <div class="form-group">
+            <label for="MusteriAd">Müþteri Adý</label>
+            <input type="text" class="form-control" id="MusteriAd" asp-for="MusteriAd" />
+            <span asp-validation-for="MusteriAd" class="text-danger"></span>
+        </div>
+        <div class="form-group mt-3">
+            <label for="MusteriSoyad">Müþteri Soyadý</label>
+            <input type="text" class="form-control" id="MusteriSoyad" asp-for="MusteriSoyad" />
+            <span asp-validation-for="MusteriSoyad" class="text-danger"></span>
+        </div>
+        <div class="form-group mt-3">
+            <label for="Tarih">Randevu Tarihi</label>
+            <input type="datetime-local" class="form-control" id="Tarih" asp-for="Tarih" />
+            <span asp-validation-for="Tarih" class="text-danger"></span>
+        </div>
+        <div class="form-group mt-3">
+            <label for="SalonId">Salon</label>
+            <select class="form-control" id="SalonId" asp-for="SalonId" asp-items="ViewBag.SalonId"></select>
+            <span asp-validation-for="SalonId" class="text-danger"></span>
+        </div>
+        <div class="form-group mt-3">
+            <label for="CalisanId">Çalýþan</label>
+            <select class="form-control" id="CalisanId" asp-for="CalisanId" asp-items="ViewBag.CalisanId"></select>
+            <span asp-validation-for="CalisanId" class="text-danger"></span>
+        </div>
+        <div class="form-group mt-3">
+            <label for="IslemId">Ýþlem</label>
+            <select class="form-control" id="IslemId" asp-for="IslemId" asp-items="ViewBag.IslemId"></select>
+            <span asp-validation-for="IslemId" class="text-danger"></span>
+        </div>
+        <div class="form-group mt-3">
+            <label for="Durum">Durum</label>
+            <select class="form-control" id="Durum" asp-for="Durum" asp-items="ViewBag.Durum"></select>
+            <span asp-validation-for="Durum" class="text-danger"></span>
+        </div>
+        <div class="text-center mt-4">
+            <button type="submit" class="btn btn-primary btn-lg">Güncelle</button>
+            <a asp-action="Index" class="btn btn-secondary btn-lg">Geri Dön</a>
+        </div>
+    </form>
+</div>

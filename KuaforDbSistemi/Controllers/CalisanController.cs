@@ -15,38 +15,39 @@ namespace KuaforDbSistemi.Controllers
             _context = context;
         }
 
-        // Çalýþanlarýn listelendiði sayfa
         public IActionResult Index()
         {
-            var calisanlar = _context.Calisanlar?.Include(c => c.Salon).ToList() ?? new List<Calisan>();
+            var calisanlar = _context.Calisanlar
+                .Include(c => c.Salon)
+                .ToList();
             return View(calisanlar);
         }
 
-        // Çalýþan detaylarýnýn görüntülendiði sayfa
         public IActionResult Details(int? id)
         {
             if (id == null)
             {
-                return NotFound("Çalýþan ID'si belirtilmedi.");
+                return NotFound();
             }
 
-            var calisan = _context.Calisanlar?.Include(c => c.Salon).FirstOrDefault(m => m.Id == id);
+            var calisan = _context.Calisanlar
+                .Include(c => c.Salon)
+                .FirstOrDefault(m => m.Id == id);
+
             if (calisan == null)
             {
-                return NotFound("Çalýþan bulunamadý.");
+                return NotFound();
             }
 
             return View(calisan);
         }
 
-        // Yeni çalýþan ekleme formu
         public IActionResult Create()
         {
-            ViewBag.SalonId = new SelectList(_context.Salonlar ?? Enumerable.Empty<Salon>(), "Id", "Isim");
+            ViewBag.SalonId = new SelectList(_context.Salonlar, "Id", "Isim");
             return View();
         }
 
-        // Yeni çalýþanýn veritabanýna kaydedilmesi
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Create(Calisan calisan)
@@ -58,48 +59,39 @@ namespace KuaforDbSistemi.Controllers
 
             if (ModelState.IsValid)
             {
-                try
-                {
-                    _context.Calisanlar?.Add(calisan);
-                    _context.SaveChanges();
-                    return RedirectToAction(nameof(Index));
-                }
-                catch (DbUpdateException ex)
-                {
-                    ModelState.AddModelError("", $"Bir hata oluþtu: {ex.InnerException?.Message ?? ex.Message}");
-                }
+                _context.Calisanlar.Add(calisan);
+                _context.SaveChanges();
+                return RedirectToAction(nameof(Index));
             }
 
-            ViewBag.SalonId = new SelectList(_context.Salonlar ?? Enumerable.Empty<Salon>(), "Id", "Isim", calisan.SalonId);
+            ViewBag.SalonId = new SelectList(_context.Salonlar, "Id", "Isim", calisan.SalonId);
             return View(calisan);
         }
 
-        // Çalýþan düzenleme formu
         public IActionResult Edit(int? id)
         {
             if (id == null)
             {
-                return NotFound("Çalýþan ID'si belirtilmedi.");
+                return NotFound();
             }
 
-            var calisan = _context.Calisanlar?.Find(id);
+            var calisan = _context.Calisanlar.Find(id);
             if (calisan == null)
             {
-                return NotFound("Çalýþan bulunamadý.");
+                return NotFound();
             }
 
-            ViewBag.SalonId = new SelectList(_context.Salonlar ?? Enumerable.Empty<Salon>(), "Id", "Isim", calisan.SalonId);
+            ViewBag.SalonId = new SelectList(_context.Salonlar, "Id", "Isim", calisan.SalonId);
             return View(calisan);
         }
 
-        // Düzenlenen çalýþanýn kaydedilmesi
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Edit(int id, Calisan calisan)
         {
             if (id != calisan.Id)
             {
-                return NotFound("Çalýþan ID'si uyuþmuyor.");
+                return NotFound();
             }
 
             if (ModelState.IsValid)
@@ -110,58 +102,54 @@ namespace KuaforDbSistemi.Controllers
                     _context.SaveChanges();
                     return RedirectToAction(nameof(Index));
                 }
-                catch (DbUpdateException ex)
+                catch (DbUpdateException)
                 {
-                    ModelState.AddModelError("", $"Bir hata oluþtu: {ex.InnerException?.Message ?? ex.Message}");
+                    ModelState.AddModelError("", "Bir hata oluþtu. Lütfen tekrar deneyiniz.");
                 }
             }
 
-            ViewBag.SalonId = new SelectList(_context.Salonlar ?? Enumerable.Empty<Salon>(), "Id", "Isim", calisan.SalonId);
+            ViewBag.SalonId = new SelectList(_context.Salonlar, "Id", "Isim", calisan.SalonId);
             return View(calisan);
         }
 
-        // Çalýþan silme onay sayfasý
         public IActionResult Delete(int? id)
         {
             if (id == null)
             {
-                return NotFound("Çalýþan ID'si belirtilmedi.");
+                return NotFound();
             }
 
-            var calisan = _context.Calisanlar?.Include(c => c.Salon).FirstOrDefault(m => m.Id == id);
+            var calisan = _context.Calisanlar
+                .Include(c => c.Salon)
+                .FirstOrDefault(m => m.Id == id);
+
             if (calisan == null)
             {
-                return NotFound("Çalýþan bulunamadý.");
+                return NotFound();
             }
 
             return View(calisan);
         }
 
-        // Çalýþan silme iþlemi
-        [HttpPost]
+        [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public IActionResult DeleteConfirmed(int id)
         {
-            if (_context.Calisanlar == null)
-            {
-                return Problem("Veritabanýnda 'Calisanlar' tablosu bulunamadý.");
-            }
+            var calisan = _context.Calisanlar
+                .Include(c => c.Randevular)
+                .FirstOrDefault(c => c.Id == id);
 
-            var calisan = _context.Calisanlar.Find(id);
             if (calisan != null)
             {
-                try
+                if (calisan.Randevular.Any())
                 {
-                    _context.Calisanlar.Remove(calisan);
-                    _context.SaveChanges();
+                    ModelState.AddModelError("", "Bu çalýþan mevcut randevularla iliþkili olduðu için silinemez.");
+                    return View("Delete", calisan);
                 }
-                catch (DbUpdateException ex)
-                {
-                    ModelState.AddModelError("", $"Silme iþleminde bir hata oluþtu: {ex.InnerException?.Message ?? ex.Message}");
-                    return RedirectToAction(nameof(Delete), new { id });
-                }
-            }
 
+                _context.Calisanlar.Remove(calisan);
+                _context.SaveChanges();
+            }
             return RedirectToAction(nameof(Index));
         }
     }

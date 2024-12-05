@@ -1,11 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace KuaforDbSistemi.Models
 {
     public class Calisan
     {
-        [Key]
         public int Id { get; set; }
 
         [Required]
@@ -22,9 +21,10 @@ namespace KuaforDbSistemi.Models
         [MaxLength(50)]
         public string? UygunlukSaatleri { get; set; }
 
-        [ForeignKey("Salon")]
         public int SalonId { get; set; }
+        public Salon? Salon { get; set; }
 
-        public Salon? Salon { get; set; } // Null atanabilir olarak işaretlendi
+        // İlişki: Bir çalışanın birden fazla randevusu olabilir
+        public ICollection<Randevu> Randevular { get; set; } = new List<Randevu>();
     }
 }

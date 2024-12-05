@@ -1,6 +1,7 @@
 ﻿using KuaforDbSistemi.Data;
 using KuaforDbSistemi.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace KuaforDbSistemi.Controllers
 {
@@ -13,54 +14,56 @@ namespace KuaforDbSistemi.Controllers
             _context = context;
         }
 
-        // Salonların listelendiği sayfa
         public IActionResult Index()
         {
-            var salonlar = _context.Salonlar?.ToList() ?? new List<Salon>();
+            var salonlar = _context.Salonlar
+                .Include(s => s.Calisanlar)
+                .Include(s => s.Islemler)
+                .ToList();
             return View(salonlar);
         }
 
-        // Belirli bir salonun detaylarını görüntüleme
         public IActionResult Details(int? id)
         {
-            if (id == null || _context.Salonlar == null)
+            if (id == null)
             {
-                return NotFound();
+                return NotFound("Salon ID'si belirtilmedi.");
             }
 
-            var salon = _context.Salonlar.FirstOrDefault(s => s.Id == id);
+            var salon = _context.Salonlar
+                .Include(s => s.Calisanlar)
+                .Include(s => s.Islemler)
+                .FirstOrDefault(s => s.Id == id);
+
             if (salon == null)
             {
-                return NotFound();
+                return NotFound("Salon bulunamadı.");
             }
 
             return View(salon);
         }
 
-        // Yeni salon ekleme formu
         public IActionResult Create()
         {
             return View();
         }
 
-        // Yeni salonu veritabanına kaydetme
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Create(Salon salon)
         {
             if (ModelState.IsValid)
             {
-                _context.Salonlar?.Add(salon);
+                _context.Salonlar.Add(salon);
                 _context.SaveChanges();
                 return RedirectToAction(nameof(Index));
             }
             return View(salon);
         }
 
-        // Belirli bir salonu düzenlemek için form
         public IActionResult Edit(int? id)
         {
-            if (id == null || _context.Salonlar == null)
+            if (id == null)
             {
                 return NotFound();
             }
@@ -74,7 +77,6 @@ namespace KuaforDbSistemi.Controllers
             return View(salon);
         }
 
-        // Düzenlenen salonun kaydedilmesi
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Edit(int id, Salon salon)
@@ -92,28 +94,27 @@ namespace KuaforDbSistemi.Controllers
                     _context.SaveChanges();
                     return RedirectToAction(nameof(Index));
                 }
-                catch (Exception)
+                catch (DbUpdateException)
                 {
-                    if (_context.Salonlar == null || !_context.Salonlar.Any(s => s.Id == id))
-                    {
-                        return NotFound();
-                    }
-                    throw;
+                    ModelState.AddModelError("", "Bir hata oluştu. Lütfen tekrar deneyiniz.");
                 }
             }
 
             return View(salon);
         }
 
-        // Belirli bir salonu silme onay sayfası
         public IActionResult Delete(int? id)
         {
-            if (id == null || _context.Salonlar == null)
+            if (id == null)
             {
                 return NotFound();
             }
 
-            var salon = _context.Salonlar.Find(id);
+            var salon = _context.Salonlar
+                .Include(s => s.Calisanlar)
+                .Include(s => s.Islemler)
+                .FirstOrDefault(s => s.Id == id);
+
             if (salon == null)
             {
                 return NotFound();
@@ -122,35 +123,27 @@ namespace KuaforDbSistemi.Controllers
             return View(salon);
         }
 
-        // Salon silme işlemi
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public IActionResult DeleteConfirmed(int id)
         {
-            if (_context.Salonlar == null)
-            {
-                return Problem("Veritabanında 'Salonlar' tablosu bulunamadı.");
-            }
+            var salon = _context.Salonlar
+                .Include(s => s.Calisanlar)
+                .Include(s => s.Islemler)
+                .FirstOrDefault(s => s.Id == id);
 
-            var salon = _context.Salonlar.Find(id);
-            if (salon == null)
+            if (salon != null)
             {
-                return NotFound(); // Eğer silinmek istenen salon bulunamazsa 404 döndür.
-            }
+                if (salon.Calisanlar.Any() || _context.Randevular.Any(r => r.SalonId == salon.Id))
+                {
+                    ModelState.AddModelError("", "Bu salon ilişkili çalışanlar veya randevular içeriyor, silinemez.");
+                    return View("Delete", salon);
+                }
 
-            try
-            {
-                _context.Salonlar.Remove(salon); // Salon silme işlemi.
-                _context.SaveChanges(); // Değişiklikleri kaydet.
+                _context.Salonlar.Remove(salon);
+                _context.SaveChanges();
             }
-            catch (Exception ex)
-            {
-                // Hata durumunda bir loglama mekanizması eklenebilir.
-                ModelState.AddModelError("", $"Bir hata oluştu: {ex.Message}");
-                return RedirectToAction(nameof(Delete), new { id });
-            }
-
-            return RedirectToAction(nameof(Index)); // Başarılı işlem sonrası Index sayfasına yönlendir.
+            return RedirectToAction(nameof(Index));
         }
     }
 }
