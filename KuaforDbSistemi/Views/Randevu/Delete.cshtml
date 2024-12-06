@@ -1,19 +1,22 @@
 @model KuaforDbSistemi.Models.Randevu
 
-<h2>Randevuyu Sil</h2>
-<p>Bu randevuyu silmek istediðinize emin misiniz?</p>
-<dl class="row">
-    <dt class="col-sm-3">Müþteri Adý</dt>
-    <dd class="col-sm-9">@Model.MusteriAd</dd>
-    <dt class="col-sm-3">Müþteri Soyadý</dt>
-    <dd class="col-sm-9">@Model.MusteriSoyad</dd>
-    <dt class="col-sm-3">Tarih</dt>
-    <dd class="col-sm-9">@Model.Tarih.ToString("dd.MM.yyyy HH:mm")</dd>
-    <dt class="col-sm-3">Durum</dt>
-    <dd class="col-sm-9">@Model.Durum</dd>
+<h2 class="text-center text-danger mt-3">Randevuyu Sil</h2>
+<p class="text-center text-muted">Bu randevuyu silmek istediðinize emin misiniz?</p>
+<dl class="row mt-4">
+    <dt class="col-sm-3 font-weight-bold">Müþteri Adý</dt>
+    <dd class="col-sm-9">@Model?.MusteriAd ?? "Bilgi Yok"</dd>
+
+    <dt class="col-sm-3 font-weight-bold">Müþteri Soyadý</dt>
+    <dd class="col-sm-9">@Model?.MusteriSoyad ?? "Bilgi Yok"</dd>
+
+    <dt class="col-sm-3 font-weight-bold">Tarih</dt>
+    <dd class="col-sm-9">@Model?.Tarih.ToString("dd.MM.yyyy HH:mm") ?? "Bilgi Yok"</dd>
+
+    <dt class="col-sm-3 font-weight-bold">Durum</dt>
+    <dd class="col-sm-9">@Model?.Durum.ToString() ?? "Bilgi Yok"</dd>
 </dl>
-<form asp-action="DeleteConfirmed" method="post">
+<form asp-action="DeleteConfirmed" method="post" class="text-center mt-4">
     <input type="hidden" asp-for="Id" />
-    <button type="submit" class="btn btn-danger">Sil</button>
-    <a asp-action="Index" class="btn btn-secondary">Geri Dön</a>
+    <button type="submit" class="btn btn-danger btn-lg">Sil</button>
+    <a asp-action="Index" class="btn btn-secondary btn-lg">Geri Dön</a>
 </form>

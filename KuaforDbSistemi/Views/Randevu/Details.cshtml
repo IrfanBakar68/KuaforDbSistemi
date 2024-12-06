@@ -1,20 +1,27 @@
 @model KuaforDbSistemi.Models.Randevu
 
-<div>
-    <h2>Randevu Detaylarý</h2>
+<div class="container mt-5">
+    <h2 class="text-center text-primary mb-4">Randevu Detaylarý</h2>
     <dl class="row">
-        <dt class="col-sm-2">Müþteri Adý</dt>
-        <dd class="col-sm-10">@Model.MusteriAd</dd>
-        <dt class="col-sm-2">Müþteri Soyadý</dt>
-        <dd class="col-sm-10">@Model.MusteriSoyad</dd>
-        <dt class="col-sm-2">Tarih</dt>
-        <dd class="col-sm-10">@Model.Tarih</dd>
-        <dt class="col-sm-2">Durum</dt>
-        <dd class="col-sm-10">@Model.Durum</dd>
-        <dt class="col-sm-2">Çalýþan</dt>
-        <dd class="col-sm-10">@Model.Calisan?.Ad ?? "Bilinmiyor"</dd>
-        <dt class="col-sm-2">Salon</dt>
-        <dd class="col-sm-10">@Model.Salon?.Isim ?? "Bilinmiyor"</dd>
+        <dt class="col-sm-3 font-weight-bold">Müþteri Adý</dt>
+        <dd class="col-sm-9">@Model?.MusteriAd ?? "Bilgi Yok"</dd>
+
+        <dt class="col-sm-3 font-weight-bold">Müþteri Soyadý</dt>
+        <dd class="col-sm-9">@Model?.MusteriSoyad ?? "Bilgi Yok"</dd>
+
+        <dt class="col-sm-3 font-weight-bold">Tarih</dt>
+        <dd class="col-sm-9">@Model?.Tarih.ToString("g") ?? "Bilgi Yok"</dd>
+
+        <dt class="col-sm-3 font-weight-bold">Durum</dt>
+        <dd class="col-sm-9">@Model?.Durum.ToString() ?? "Bilgi Yok"</dd>
+
+        <dt class="col-sm-3 font-weight-bold">Çalýþan</dt>
+        <dd class="col-sm-9">@Model?.Calisan?.Ad ?? "Bilgi Yok"</dd>
+
+        <dt class="col-sm-3 font-weight-bold">Salon</dt>
+        <dd class="col-sm-9">@Model?.Salon?.Isim ?? "Bilgi Yok"</dd>
     </dl>
-    <a asp-action="Index" class="btn btn-secondary">Geri Dön</a>
+    <div class="text-center mt-4">
+        <a asp-action="Index" class="btn btn-secondary btn-lg">Geri Dön</a>
+    </div>
 </div>

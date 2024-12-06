@@ -1,0 +1,23 @@
+﻿@model IEnumerable<Microsoft.AspNetCore.Identity.IdentityUser>
+
+<h2>Kullanıcı Listesi</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Email</th>
+            <th>İşlemler</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>@user.Email</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@user.Id" class="btn btn-warning">Düzenle</a>
+                    <a asp-action="AssignRole" asp-route-id="@user.Id" class="btn btn-primary">Rol Ata</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

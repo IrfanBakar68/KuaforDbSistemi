@@ -1,0 +1,12 @@
+﻿@model KuaforDbSistemi.ViewModels.AssignRoleViewModel
+
+<h2>Rol Ata</h2>
+<form asp-action="AssignRole">
+    <input type="hidden" asp-for="UserId" />
+    <div class="form-group">
+        <label>Roller</label>
+        <select asp-for="SelectedRoles" asp-items="@(new MultiSelectList(Model.Roles))" multiple class="form-control"></select>
+    </div>
+    <button type="submit" class="btn btn-success">Rol Ata</button>
+    <a asp-action="Index" class="btn btn-secondary">Geri Dön</a>
+</form>

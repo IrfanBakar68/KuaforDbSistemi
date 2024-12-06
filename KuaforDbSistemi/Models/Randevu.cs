@@ -1,43 +1,50 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace KuaforDbSistemi.Models
 {
+    public class Randevu
+    {
+        [Key]
+        public int Id { get; set; }
+
+        [Required]
+        [StringLength(50)]
+        public string MusteriAd { get; set; } = string.Empty;
+
+        [Required]
+        [StringLength(50)]
+        public string MusteriSoyad { get; set; } = string.Empty;
+
+        [Required]
+        public DateTime Tarih { get; set; }
+
+        [Required]
+        public int SalonId { get; set; }
+
+        [ForeignKey(nameof(SalonId))]
+        public virtual Salon? Salon { get; set; }
+
+        [Required]
+        public int CalisanId { get; set; }
+
+        [ForeignKey(nameof(CalisanId))]
+        public virtual Calisan? Calisan { get; set; }
+
+        [Required]
+        public int IslemId { get; set; }
+
+        [ForeignKey(nameof(IslemId))]
+        public virtual Islem? Islem { get; set; }
+
+        [Required]
+        public RandevuDurum Durum { get; set; }
+    }
+
     public enum RandevuDurum
     {
         Beklemede,
-        Onaylandi,
+        Tamamlandi,
         IptalEdildi
-    }
-
-    public class Randevu
-    {
-        public int Id { get; set; }
-
-        [Required(ErrorMessage = "Müşteri adı zorunludur.")]
-        [MaxLength(100, ErrorMessage = "Müşteri adı 100 karakterden fazla olamaz.")]
-        public string MusteriAd { get; set; } = string.Empty;
-
-        [Required(ErrorMessage = "Müşteri soyadı zorunludur.")]
-        [MaxLength(100, ErrorMessage = "Müşteri soyadı 100 karakterden fazla olamaz.")]
-        public string MusteriSoyad { get; set; } = string.Empty;
-
-        [Required(ErrorMessage = "Randevu tarihi zorunludur.")]
-        public DateTime Tarih { get; set; }
-
-        [Required(ErrorMessage = "İşlem seçimi zorunludur.")]
-        public int IslemId { get; set; }
-        public Islem? Islem { get; set; }
-
-        [Required(ErrorMessage = "Çalışan seçimi zorunludur.")]
-        public int CalisanId { get; set; }
-        public Calisan? Calisan { get; set; }
-
-        [Required(ErrorMessage = "Salon seçimi zorunludur.")]
-        public int SalonId { get; set; }
-        public Salon? Salon { get; set; }
-
-        [Required(ErrorMessage = "Randevu durumu zorunludur.")]
-        public RandevuDurum Durum { get; set; } = RandevuDurum.Beklemede;
     }
 }

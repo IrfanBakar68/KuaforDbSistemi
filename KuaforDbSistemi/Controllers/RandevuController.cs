@@ -26,6 +26,23 @@ namespace KuaforDbSistemi.Controllers
             return View(randevular);
         }
 
+        public IActionResult Details(int? id)
+        {
+            if (id == null)
+                return NotFound();
+
+            var randevu = _context.Randevular
+                .Include(r => r.Islem)
+                .Include(r => r.Calisan)
+                .Include(r => r.Salon)
+                .FirstOrDefault(r => r.Id == id);
+
+            if (randevu == null)
+                return NotFound();
+
+            return View(randevu);
+        }
+
         public IActionResult Create()
         {
             PopulateSelectLists();
@@ -38,17 +55,26 @@ namespace KuaforDbSistemi.Controllers
         {
             if (ModelState.IsValid)
             {
-                try
+                if (IsRandevuAvailable(randevu))
                 {
-                    _context.Randevular.Add(randevu);
-                    _context.SaveChanges();
-                    return RedirectToAction(nameof(Index));
+                    try
+                    {
+                        randevu.Durum = RandevuDurum.Beklemede;
+                        _context.Randevular.Add(randevu);
+                        _context.SaveChanges();
+                        return RedirectToAction(nameof(Index));
+                    }
+                    catch (DbUpdateException ex)
+                    {
+                        ModelState.AddModelError("", $"Veritabanı hatası: {ex.InnerException?.Message ?? ex.Message}");
+                    }
                 }
-                catch (DbUpdateException ex)
+                else
                 {
-                    ModelState.AddModelError("", $"Veritabanı hatası: {ex.InnerException?.Message ?? ex.Message}");
+                    ModelState.AddModelError("", "Seçilen saat için uygun çalışan bulunmamaktadır.");
                 }
             }
+
             PopulateSelectLists(randevu);
             return View(randevu);
         }
@@ -117,8 +143,7 @@ namespace KuaforDbSistemi.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult DeleteConfirmed(int id)
         {
-            var randevu = _context.Randevular
-                .FirstOrDefault(r => r.Id == id);
+            var randevu = _context.Randevular.FirstOrDefault(r => r.Id == id);
 
             if (randevu != null)
             {
@@ -126,11 +151,11 @@ namespace KuaforDbSistemi.Controllers
                 {
                     _context.Randevular.Remove(randevu);
                     _context.SaveChanges();
+                    return RedirectToAction(nameof(Index));
                 }
                 catch (DbUpdateException ex)
                 {
                     ModelState.AddModelError("", $"Silme işleminde hata oluştu: {ex.InnerException?.Message ?? ex.Message}");
-                    return RedirectToAction(nameof(Delete), new { id });
                 }
             }
             else
@@ -154,6 +179,14 @@ namespace KuaforDbSistemi.Controllers
                 "Text",
                 randevu?.Durum
             );
+        }
+
+        private bool IsRandevuAvailable(Randevu randevu)
+        {
+            return !_context.Randevular.Any(r =>
+                r.CalisanId == randevu.CalisanId &&
+                r.Tarih <= randevu.Tarih.AddMinutes(30) &&
+                r.Tarih >= randevu.Tarih.AddMinutes(-30));
         }
     }
 }
