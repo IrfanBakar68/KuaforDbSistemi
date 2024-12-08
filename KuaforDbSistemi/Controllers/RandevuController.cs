@@ -1,11 +1,13 @@
 using KuaforDbSistemi.Data;
 using KuaforDbSistemi.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace KuaforDbSistemi.Controllers
 {
+    [Authorize] // Bu öznitelik tüm metotlara giriþ kontrolü ekler
     public class RandevuController : Controller
     {
         private readonly KuaforContext _context;

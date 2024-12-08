@@ -4,7 +4,11 @@ using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// MVC ve API için gerekli servislerin eklenmesi
 builder.Services.AddControllersWithViews();
+builder.Services.AddControllers();
+builder.Services.AddEndpointsApiExplorer(); // Swagger için gerekli
+builder.Services.AddSwaggerGen(); // Swagger dokümantasyonu
 
 builder.Services.AddDbContext<KuaforContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -36,6 +40,13 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+// Swagger Middleware
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Kuaför API v1"));
+}
+
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
@@ -44,8 +55,10 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
+// Üst seviye rota tanýmlamalarý
+app.MapControllers(); // API Controller'larý için
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Home}/{action=Index}/{id?}"); // MVC Controller'larý için
 
 app.Run();

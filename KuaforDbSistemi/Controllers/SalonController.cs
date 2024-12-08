@@ -1,10 +1,12 @@
 ﻿using KuaforDbSistemi.Data;
 using KuaforDbSistemi.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace KuaforDbSistemi.Controllers
 {
+    [Authorize] // Oturum açma kontrolü
     public class SalonController : Controller
     {
         private readonly KuaforContext _context;
