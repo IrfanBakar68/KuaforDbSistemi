@@ -1,0 +1,19 @@
+﻿@model dynamic
+<div class="container">
+    <h2>Oluşturulan Saç Modeli</h2>
+    @if (Model?.ImageUrl != null)
+    {
+        <img src="@Model.ImageUrl" alt="Generated Hair Style" class="img-fluid" />
+        <form asp-action="SubmitFeedback" method="post">
+            <input type="hidden" name="imageUrl" value="@Model.ImageUrl" />
+            <div class="mt-3">
+                <button type="submit" name="feedback" value="true" class="btn btn-success">Beğendim</button>
+                <button type="submit" name="feedback" value="false" class="btn btn-danger">Beğenmedim</button>
+            </div>
+        </form>
+    }
+    else
+    {
+        <p>Bir sonuç alınamadı.</p>
+    }
+</div>

@@ -1,0 +1,31 @@
+﻿@{
+    ViewData["Title"] = "Fotoğraf Yükle";
+}
+
+<div class="container mt-5">
+    <h2>Yapay Zeka Saç Modeli Önerisi</h2>
+    <p>Lütfen bir fotoğraf yükleyerek yapay zeka tarafından önerilen saç modellerini görün.</p>
+
+    <form asp-controller="AI" asp-action="GenerateHairStyle" enctype="multipart/form-data" method="post">
+        <div class="form-group">
+            <label for="file">Fotoğraf Seçin:</label>
+            <input type="file" name="file" class="form-control" required />
+        </div>
+        <button type="submit" class="btn btn-primary mt-3">Fotoğraf Yükle</button>
+    </form>
+
+    @if (ViewBag.ErrorMessage != null)
+    {
+        <div class="alert alert-danger mt-3">
+            @ViewBag.ErrorMessage
+        </div>
+    }
+
+    @if (ViewBag.Result != null)
+    {
+        <div class="mt-5">
+            <h4>Yapay Zeka Önerisi:</h4>
+            <p>@ViewBag.Result</p>
+        </div>
+    }
+</div>
